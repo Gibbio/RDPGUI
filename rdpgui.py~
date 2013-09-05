@@ -112,7 +112,7 @@ class Ui_RDPGUI(object):
 	User_Pass = config.get("DEFAULT", "RDPPasswordFlags") + self.RDPpassword.text() + ' ' + config.get("DEFAULT", "RDPUserFlags") + self.RDPusername.text()
 	commandline = str(config.get("DEFAULT", "RDPBinary") + ' ' + DomainFlag+' '+ User_Pass + ' ' + config.get("DEFAULT", "RDPDefaulfFlags") + ' ' + config.get("DEFAULT", "RDPExtraFlags") + ' ' + ServerFlag)
 	commandline = re.sub('["!,;]','',commandline)
-	#print commandline
+	print commandline
 	proc = subprocess.Popen(commandline, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 	(out, err) = proc.communicate()
 	print "-------------------------------------------------------------"
