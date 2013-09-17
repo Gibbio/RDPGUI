@@ -76,6 +76,7 @@ class Ui_RDPGUI(object):
 
         self.retranslateUi(RDPGUI)
         QtCore.QObject.connect(self.RDPpassword, QtCore.SIGNAL(_fromUtf8("returnPressed()")), self.enterButton.click)
+	QtCore.QObject.connect(self.RDPusername, QtCore.SIGNAL(_fromUtf8("editingFinished()")), self.checkdomain)
         QtCore.QMetaObject.connectSlotsByName(RDPGUI)
 	centreWidget(RDPGUI)
 
@@ -86,32 +87,38 @@ class Ui_RDPGUI(object):
         self.RDPpassword.setToolTip(_translate("RDPGUI", "Insert username", None))
         self.RDPpassword.setPlaceholderText(_translate("RDPGUI", "Password", None))
         self.RDPdomain.setText(_translate("RDPGUI", "DOMAIN", None))
-        self.version.setText(_translate("RDPGUI", "rpi-tc rdp gui v1", None))
+        self.version.setText(_translate("RDPGUI", "rpi-tc rdp gui v2", None))
 	self.enterButton.clicked.connect(self.handleButton)
-	#STANDARD CONFIG:
-	#[DEFAULT]
-	#RDPBinary = xfreerdp
-	#RDPDomain = FRACARRO
-	#RDPServer = frterminal.fracarro.lan
-	#RDPDomainFlags = /d:
-	#RDPServerFlags = /v:
-	#RDPUserFlags = /u:
-	#RDPPasswordFlags = /p:
-	#RDPDefaulfFlags = /cert-ignore /f
-	#RDPExtraFlags = /sound:sys:pulse /rfx /fonts
 	config = ConfigParser.ConfigParser()
 	config.read('rdpgui.ini')
 	self.RDPdomain.setText(_translate("RDPGUI", config.get("DEFAULT", "RDPDomain"), None))
+
+
+    def checkdomain(self):
+	#updating DOMAIN label if domain in. ex: DOMAIN\username
+	if str(self.RDPusername.text()).find("\\") > 0:
+		self.RDPdomain.setText(_translate("RDPGUI", str(self.RDPusername.text()).split('\\')[0], None))
+	else:
+		config = ConfigParser.ConfigParser()
+		config.read('rdpgui.ini')
+		self.RDPdomain.setText(_translate("RDPGUI", config.get("DEFAULT", "RDPDomain"), None))
 
 
     def handleButton(self):
 	config = ConfigParser.ConfigParser()
 	config.read('rdpgui.ini')
 	ServerFlag = config.get("DEFAULT", "RDPServerFlags") + config.get("DEFAULT", "RDPServer")
-	DomainFlag = config.get("DEFAULT", "RDPDomainFlags") + config.get("DEFAULT", "RDPDomain")
-	User_Pass = config.get("DEFAULT", "RDPPasswordFlags") + self.RDPpassword.text() + ' ' + config.get("DEFAULT", "RDPUserFlags") + self.RDPusername.text()
-	commandline = str(config.get("DEFAULT", "RDPBinary") + ' ' + DomainFlag+' '+ User_Pass + ' ' + config.get("DEFAULT", "RDPDefaulfFlags") + ' ' + config.get("DEFAULT", "RDPExtraFlags") + ' ' + ServerFlag)
-	commandline = re.sub('["!,;]','',commandline)
+	#checking if username have domain in. ex: DOMAIN\username
+	if str(self.RDPusername.text()).find("\\") > 0:
+		DomainFlag = config.get("DEFAULT", "RDPDomainFlags") + str(self.RDPusername.text()).split('\\')[0]
+		UserFlag = config.get("DEFAULT", "RDPUserFlags") + str(self.RDPusername.text()).split('\\')[1]
+	else:
+		DomainFlag = config.get("DEFAULT", "RDPDomainFlags") + config.get("DEFAULT", DomainFlag)
+		UserFlag = config.get("DEFAULT", "RDPUserFlags") + self.RDPusername.text()
+	User_Pass = config.get("DEFAULT", "RDPPasswordFlags") + self.RDPpassword.text() + ' ' + UserFlag
+	commandline = str(config.get("DEFAULT", "RDPBinary") + ' ' + DomainFlag +' '+ User_Pass + ' ' + config.get("DEFAULT", "RDPDefaulfFlags") + ' ' + config.get("DEFAULT", "RDPExtraFlags") + ' ' + ServerFlag)
+	#cleaning dquote from confi.ini params
+	commandline = re.sub('["]','',commandline)
 	#print commandline
 	proc = subprocess.Popen(commandline, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 	(out, err) = proc.communicate()
@@ -133,6 +140,7 @@ class Ui_RDPGUI(object):
 		self.RDPusername.setText(_translate("RDPGUI", "", None))
 		self.RDPpassword.setText(_translate("RDPGUI", "", None))
 		self.version.setText(_translate("RDPGUI", "rpi-tc rdp gui v1", None))
+		self.RDPdomain.setText(_translate("RDPGUI", config.get("DEFAULT", "RDPDomain"), None))
 		self.label.setText(_fromUtf8(""))
 
 
