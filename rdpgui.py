@@ -7,6 +7,10 @@ import subprocess
 import urllib
 import ConfigParser
 
+abspath = os.path.abspath(__file__)
+dname = os.path.dirname(abspath)
+os.chdir(dname)
+
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
