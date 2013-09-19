@@ -9,7 +9,7 @@ config for FreeRDP > 1.0.1 (new command line release: https://github.com/FreeRDP
 [DEFAULT]<br>
 RDPBinary = xfreerdp<br>
 RDPDomain = RPiTC<br>
-RDPServer = serverorbroker.domain.lan<br>
+RDPServer = server1.domain.lan server2.domain.lan server3.domain.lan<br>
 RDPDomainFlags = /d:<br>
 RDPServerFlags = /v:<br>
 RDPUserFlags = /u:<br>
@@ -21,7 +21,7 @@ config for FreeRDP < 1.0.1 (old command line release: http://manpages.ubuntu.com
 [DEFAULT]<br>
 RDPBinary = xfreerdp<br>
 RDPDomain = RPiTC<br>
-RDPServer = serverorbroker.domain.lan<br>
+RDPServer = server1.domain.lan server2.domain.lan server3.domain.lan<br>
 RDPDomainFlags = "-d "<br>
 RDPServerFlags = ""<br>
 RDPUserFlags = "-u "<br>
@@ -33,7 +33,7 @@ config for RDesktop (command line reference: http://manpages.ubuntu.com/manpages
 [DEFAULT]<br>
 RDPBinary = rdesktop<br>
 RDPDomain = RPiTC<br>
-RDPServer = serverorbroker.domain.lan<br>
+RDPServer = server1.domain.lan server2.domain.lan server3.domain.lan<br>
 RDPDomainFlags = "-d "<br>
 RDPServerFlags = ""<br>
 RDPUserFlags = "-u "<br>
