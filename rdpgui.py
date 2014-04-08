@@ -138,7 +138,7 @@ class Ui_RDPGUI(object):
 		DomainFlag = config.get("DEFAULT", "RDPDomainFlags") + str(self.RDPusername.text()).split('\\')[0]
 		UserFlag = config.get("DEFAULT", "RDPUserFlags") + str(self.RDPusername.text()).split('\\')[1]
 	else:
-		DomainFlag = config.get("DEFAULT", "RDPDomainFlags") + config.get("DEFAULT", RDPDomain)
+		DomainFlag = config.get("DEFAULT", "RDPDomainFlags") + config.get("DEFAULT", "RDPDomain")
 		UserFlag = config.get("DEFAULT", "RDPUserFlags") + self.RDPusername.text()
 	User_Pass = config.get("DEFAULT", "RDPPasswordFlags") + self.RDPpassword.text() + ' ' + UserFlag
 	commandline = str(config.get("DEFAULT", "RDPBinary") + ' ' + DomainFlag +' '+ User_Pass + ' ' + config.get("DEFAULT", "RDPDefaulfFlags") + ' ' + config.get("DEFAULT", "RDPExtraFlags") + ' ' + ServerFlag)
