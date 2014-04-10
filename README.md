@@ -1,7 +1,6 @@
 Simple Remote Desktop Connection Client in PyQt4<br>
 <br>
-Package needed:<br>
-python-qt4<br>
+Packages needed: python-qt4, python-configparser,python-urllib3
 <br>
 edit rdpgui.ini to fit your server environment<br>
 <br>
