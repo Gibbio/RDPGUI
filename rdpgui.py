@@ -43,6 +43,10 @@ class Ui_RDPGUI(object):
         self.enterButton.setGeometry(QtCore.QRect(430, 340, 31, 31))
         self.enterButton.setStyleSheet(_fromUtf8("background-color: rgb(255, 255, 255);"))
         self.enterButton.setText(_fromUtf8(""))
+        self.exitButton = QtGui.QPushButton(RDPGUI)
+        self.exitButton.setGeometry(QtCore.QRect(430, 400, 31, 31))
+        self.exitButton.setStyleSheet(_fromUtf8("background-color: rgb(255, 100, 100);"))
+        self.exitButton.setText(_fromUtf8("Exit"))
         icon1 = QtGui.QIcon()
         icon1.addPixmap(QtGui.QPixmap(_fromUtf8("enter.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.enterButton.setIcon(icon1)
@@ -110,6 +114,7 @@ class Ui_RDPGUI(object):
         self.domainlabel.setText(_translate("RDPGUI", "Domain:", None))
         self.RDPdomain.setText(_translate("RDPGUI", "DOMAIN", None))
 	self.enterButton.clicked.connect(self.handleButton)
+	self.exitButton.clicked.connect(self.doExitNow)
 	config = ConfigParser.ConfigParser()
 	config.read('rdpgui.ini')
 	serverlist = str(config.get("DEFAULT", "RDPServer")).split()
@@ -129,6 +134,8 @@ class Ui_RDPGUI(object):
 		config.read('rdpgui.ini')
 		self.RDPdomain.setText(_translate("RDPGUI", config.get("DEFAULT", "RDPDomain"), None))
 
+    def doExitNow(self):
+        sys.exit(app.exec_());
 
     def handleButton(self):
 	config = ConfigParser.ConfigParser()
